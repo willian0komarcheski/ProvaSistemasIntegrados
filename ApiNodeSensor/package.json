@@ -1,0 +1,21 @@
+{
+  "name": "ApiNodeSensor",
+  "version": "1.0.0",
+  "description": "API de Sensores para Sistema de Petróleo",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "redis": "^4.6.7",
+    "axios": "^1.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
+  "keywords": ["sensor", "api", "oil", "petroleum"],
+  "author": "Student",
+  "license": "MIT"
+}

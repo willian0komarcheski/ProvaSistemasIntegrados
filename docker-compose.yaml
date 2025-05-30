@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: redis_cache
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - oil_network
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq_broker
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - oil_network
+
+  sensor-api:
+    build: ./ApiNodeSensor
+    container_name: sensor_api
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - PYTHON_API_URL=http://events-api:5000
+    depends_on:
+      - redis
+    networks:
+      - oil_network
+    restart: unless-stopped
+
+  events-api:
+    build: ./ApiPythonEvents
+    container_name: events_api
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=guest
+      - RABBITMQ_PASS=guest
+    depends_on:
+      - redis
+      - rabbitmq
+    networks:
+      - oil_network
+    restart: unless-stopped
+
+  logistics-api:
+    build: ./ApiPHPLogistic
+    container_name: logistics_api
+    ports:
+      - "8000:8000"
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=guest
+      - RABBITMQ_PASS=guest
+    depends_on:
+      - rabbitmq
+    networks:
+      - oil_network
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+  rabbitmq_data:
+
+networks:
+  oil_network:
+    driver: bridge
