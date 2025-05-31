@@ -150,15 +150,6 @@ def get_events():
         print(f"Erro ao buscar eventos: {e}")
         return jsonify({'error': 'Erro interno do servidor'}), 500
 
-@app.route('/status', methods=['GET'])
-def status():
-    return jsonify({
-        'service': 'Módulo de Eventos Críticos',
-        'status': 'online',
-        'total_events': len(events_list),
-        'timestamp': datetime.now().isoformat()
-    })
-
 if __name__ == '__main__':
     consumer_thread = threading.Thread(target=rabbitmq_consumer, daemon=True)
     consumer_thread.start()

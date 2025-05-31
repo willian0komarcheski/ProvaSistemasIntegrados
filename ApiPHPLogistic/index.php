@@ -139,14 +139,5 @@ if ($method === 'POST' && $path === '/dispatch') {
     exit;
 }
 
-if ($method === 'GET' && $path === '/status') {
-    echo json_encode([
-        'service' => 'Módulo de Logística',
-        'status' => 'online',
-        'timestamp' => date('c')
-    ]);
-    exit;
-}
-
 http_response_code(404);
 echo json_encode(['error' => 'Endpoint não encontrado']);

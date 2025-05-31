@@ -95,14 +95,6 @@ app.post('/alert', async (req, res) => {
     }
 });
 
-app.get('/status', (req, res) => {
-    res.json({
-        service: 'Módulo de Sensores',
-        status: 'online',
-        timestamp: new Date().toISOString()
-    });
-});
-
 app.listen(PORT, () => {
     console.log(`API Node.js (Sensores) rodando na porta ${PORT}`);
 });

@@ -21,9 +21,6 @@ curl http://localhost:3000/sensor-data
 curl -X POST http://localhost:3000/alert \
 -H "Content-Type: application/json" \
 -d '{"message": "High temperature alert", "severity": "high", "sensorId": "SENSOR_1"}'
-
-# Check status
-curl http://localhost:3000/status
 ```
 
 ### Events API (Python - Port 5000)
@@ -36,9 +33,6 @@ curl -X POST http://localhost:5000/event \
 
 # Get all events
 curl http://localhost:5000/events
-
-# Check status
-curl http://localhost:5000/status
 ```
 
 ### Logistics API (PHP - Port 8000)
@@ -51,9 +45,6 @@ curl http://localhost:8000/equipments
 curl -X POST http://localhost:8000/dispatch \
 -H "Content-Type: application/json" \
 -d '{"equipmentId": 1, "action": "maintenance", "priority": "high"}'
-
-# Check status
-curl http://localhost:8000/status
 ```
 
 # explicação dos endpoints das apis
@@ -74,12 +65,6 @@ Explique aqui como esse endpoint funciona, o que ele retorna e qual sua utilidad
 **Descrição:**
 Explique aqui como esse endpoint funciona, o que é necessário enviar no corpo da requisição e qual o propósito do alerta.
 
-#### `GET /status`
-
-**Descrição:**
-Explique aqui qual o objetivo deste endpoint e quando ele pode ser utilizado.
-
-
 
 ## Critical Events API (Python + Flask)
 
@@ -97,11 +82,6 @@ Explique aqui como esse endpoint funciona, quais dados ele espera no corpo da re
 **Descrição:**
 Explique aqui como recuperar a lista de eventos registrados, a diferença entre dados em cache e em memória, e quando esse endpoint pode ser usado.
 
-#### `GET /status`
-
-**Descrição:**
-Descreva a finalidade deste endpoint, o que ele retorna e como pode ser últil para monitoramento da API.
-
 
 ## Módulo de Logística (PHP)
 
@@ -118,8 +98,3 @@ Explique aqui como esse endpoint retorna uma lista fixa de equipamentos, com det
 
 **Descrição:**
 Explique aqui como esse endpoint recebe uma solicitação de despacho logístico para um equipamento e publica essa mensagem na fila `logistics_queue` do RabbitMQ.
-
-#### `GET /status`
-
-**Descrição:**
-Explique aqui como esse endpoint fornece um status simples de funcionamento do serviço.
