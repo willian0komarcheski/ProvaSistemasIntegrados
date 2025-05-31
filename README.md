@@ -8,6 +8,14 @@ Este projeto é composto por três APIs (Node.js, Python e PHP) integradas a ser
 cd ProvaSistemasIntegrados
 docker-compose up --build
 ```
+ou
+```bash
+cd ProvaSistemasIntegrados
+docker-compose build
+docker-compose up
+```
+
+
 
 ## Urls para Teste de endpoints 
 
