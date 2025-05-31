@@ -24,14 +24,21 @@ def setup_rabbitmq():
         rabbitmq_user = os.getenv('RABBITMQ_USER', 'guest')
         rabbitmq_pass = os.getenv('RABBITMQ_PASS', 'guest')
         
+
         credentials = pika.PlainCredentials(rabbitmq_user, rabbitmq_pass)
         connection = pika.BlockingConnection(
             pika.ConnectionParameters(
                 host=rabbitmq_host,
                 port=rabbitmq_port,
-                credentials=credentials
+                credentials=credentials,
+                heartbeat=300,
+                blocked_connection_timeout=120,
+                socket_timeout=10,
+                connection_attempts=3,
+                retry_delay=2
             )
         )
+        
         channel = connection.channel()
         
         channel.queue_declare(queue='logistics_queue', durable=True)
@@ -66,7 +73,8 @@ def rabbitmq_consumer():
                 try:
                     redis_client.delete('events_cache')
                     redis_client.setex('events_cache', 60, json.dumps(events_list))
-                except:
+                except Exception as e:
+                    print(f"Erro ao atualizar cache Redis: {e}")
                     pass
                 
                 print(f"Evento de logística processado: {event['eventId']}")

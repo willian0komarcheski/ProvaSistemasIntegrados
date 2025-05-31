@@ -57,7 +57,7 @@ function getEquipmentsList() {
 function publishToRabbitMQ($message) {
     try {
         $host = $_ENV['RABBITMQ_HOST'] ?? 'localhost';
-        $port = $_ENV['RABBITMQ_PORT'] ?? 5672;
+        $port = intval($_ENV['RABBITMQ_PORT'] ?? 5672);
         $user = $_ENV['RABBITMQ_USER'] ?? 'guest';
         $pass = $_ENV['RABBITMQ_PASS'] ?? 'guest';
         
